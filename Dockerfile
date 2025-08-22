@@ -8,7 +8,9 @@ WORKDIR /app
 COPY start/package*.json ./
 
 # Bağımlılıkları kur
-RUN npm install
+# RUN npm install
+# Bağımlılıkları 'package-lock.json' dosyasına göre tam olarak kur
+RUN npm ci
 
 # ÖNEMLİ: Projenin geri kalan tüm kodunu 'start' klasöründen kopyala
 COPY start/. .
