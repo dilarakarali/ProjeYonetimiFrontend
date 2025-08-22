@@ -1,5 +1,5 @@
 # --- Aşama 1: Build (İnşa Etme) ---
-FROM node:18-alpine AS builder
+FROM node:20-alpine AS builder
 
 # Çalışma dizinini /app olarak ayarla
 WORKDIR /app
