@@ -12,8 +12,11 @@ COPY start/package*.json ./
 # Bağımlılıkları 'package-lock.json' dosyasına göre tam olarak kur
 RUN npm ci
 
-# ÖNEMLİ: Projenin geri kalan tüm kodunu 'start' klasöründen kopyala
 COPY start/. .
+
+# Node.js için bellek limitini ayarla (Render'ın ücretsiz katmanı için)
+ENV NODE_OPTIONS=--max-old-space-size=460
+
 
 # Vite projesini build et
 RUN npm run build
