@@ -11,6 +11,38 @@ const Login = ({ onLogin }) => {
   const [error, setError] = useState(null);
   const [isLoading, setIsloading] = useState(false);
 
+const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError(null);
+    setIsloading(true);
+
+    try {
+      const response = await login(username, password);
+
+      // --- DEĞİŞİKLİK BURADA ---
+      // Backend'den gelen cevabın içindeki 'data' nesnesinden token ve rolleri al
+      const { token, roles } = response.data.data; 
+
+      // Eğer token veya roller hala tanımsızsa, bir hata fırlat
+      if (!token || !roles) {
+        throw new Error("Token or roles not found in response");
+      }
+
+      localStorage.setItem("token", token);
+      localStorage.setItem("username", username);
+      localStorage.setItem("roles", JSON.stringify(roles));
+
+      onLogin(token, roles);
+    } catch (err) {
+      // Hata mesajını daha bilgilendirici hale getirelim
+      console.error("Login Error:", err); // Konsola detaylı hatayı yazdır
+      setError('Login failed. Please check your credentials or contact support.');
+    } finally {
+      setIsloading(false);
+    }
+  };
+
+  /*
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
@@ -33,7 +65,7 @@ const Login = ({ onLogin }) => {
       setIsloading(false);
     }
   };
-
+*/
   return (
     <div
       style={{
