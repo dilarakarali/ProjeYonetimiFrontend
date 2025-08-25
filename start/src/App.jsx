@@ -1,3 +1,4 @@
+
 /*
 App.jsx: Tüm uygulamanın ana bileşenidir. Sayfalar arası geçişi (routing) ve kullanıcının giriş durumunu yönetir.
 State Yönetimi: token ve roles bilgilerini useState ile tutar. Bu token'ın dolu veya boş olması, kullanıcının giriş yapıp yapmadığını belirler.
@@ -61,7 +62,17 @@ Bu da eski componentDidUpdate'in karşılığı olurdu.
 */
 function App() {
   const [token, setToken] = useState(localStorage.getItem('token'));
-  const [roles, setRoles] = useState(JSON.parse(localStorage.getItem('roles') || '[]'));
+ const initialRoles = () => {
+    try {
+      const storedRoles = localStorage.getItem('roles');
+      return storedRoles ? JSON.parse(storedRoles) : [];
+    } catch (e) {
+      return [];
+    }
+  };
+  const [roles, setRoles] = useState(initialRoles());
+
+ // const [roles, setRoles] = useState(JSON.parse(localStorage.getItem('roles') || '[]'));
 /*SORU 6 (Authentication):Kimlik doğrulama başarılı olduğunda (login), bu fonksiyon çalışır.
 Backend'den gelen Token'ı alır ve hem state'e hem de localStorage'a kaydeder.
 Authentication:"Sen kimsin?" 
