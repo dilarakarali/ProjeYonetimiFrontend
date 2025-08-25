@@ -114,7 +114,8 @@ ve kodda değişiklik yaptığınızda sayfayı anında güncelleyen araç VITE'
         <Route
           path="/"
           // Home component'ine handleLogout fonksiyonunu onLogout prop'u olarak gönderiyoruz
-          element={token ? <Home onLogout={handleLogout} /> : <Login onLogin={handleLogin} />}
+          //element={token ? <Home onLogout={handleLogout} /> : <Login onLogin={handleLogin} />}
+          element={(token && roles.length > 0) ? <Home onLogout={handleLogout} roles={roles} /> : <Login onLogin={handleLogin} />}
         />
         
         <Route path="/employees" element={
