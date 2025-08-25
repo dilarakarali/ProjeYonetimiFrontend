@@ -47,7 +47,10 @@ const Home = ({ onLogout, roles }) => {
   // Artık useState ve useEffect'e ihtiyacımız kalmadı.
   // Rol bilgisi doğrudan App.jsx'ten geliyor.
 
-  const isAdmin = roles.includes('ROLE_ADMIN');
+  //const isAdmin = roles.includes('ROLE_ADMIN');
+
+// Önce 'roles' diye bir şeyin var olduğundan ve bir dizi olduğundan emin ol, sonra 'includes' metodunu çağır.
+  const isAdmin = Array.isArray(roles) && roles.includes('ROLE_ADMIN');
 
   const handleBoxClick = (box) => {
     if (box === "employee" || box === "project") {
