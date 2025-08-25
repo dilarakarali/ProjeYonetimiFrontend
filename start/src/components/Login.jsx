@@ -19,29 +19,32 @@ const handleSubmit = async (e) => {
     try {
       const response = await login(username, password);
 
-      // --- DEĞİŞİKLİK BURADA ---
-      // Backend'den gelen cevabın içindeki 'data' nesnesinden token ve rolleri al
-      const { token, roles } = response.data.data; 
+      // --- ASIL DEĞİŞİKLİK BURADA ---
+      // Token ve rolleri DOĞRUDAN response.data'dan almayı dene
+      const token = response.data.token;
+      const roles = response.data.roles;
 
-      // Eğer token veya roller hala tanımsızsa, bir hata fırlat
+      // Eğer token veya roller tanımsızsa, bu bir hatadır
       if (!token || !roles) {
-        throw new Error("Token or roles not found in response");
+        // Konsola backend'den gelen tüm cevabı yazdırarak ne olduğunu görelim
+        console.error("Incomplete data received from backend:", response.data);
+        throw new Error("Token or roles not found in login response");
       }
 
       localStorage.setItem("token", token);
       localStorage.setItem("username", username);
       localStorage.setItem("roles", JSON.stringify(roles));
 
+      // onLogin fonksiyonunu çağırarak App.jsx'i güncelle
       onLogin(token, roles);
+
     } catch (err) {
-      // Hata mesajını daha bilgilendirici hale getirelim
-      console.error("Login Error:", err); // Konsola detaylı hatayı yazdır
-      setError('Login failed. Please check your credentials or contact support.');
+      console.error("Login Error Details:", err); // Hatanın tüm detaylarını konsola yazdır
+      setError('Login failed. Please check your credentials or network connection.');
     } finally {
       setIsloading(false);
     }
   };
-
   /*
   const handleSubmit = async (e) => {
     e.preventDefault();
