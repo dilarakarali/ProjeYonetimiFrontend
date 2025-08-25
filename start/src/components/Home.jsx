@@ -49,6 +49,9 @@ const Home = ({ onLogout, roles }) => {
 
   //const isAdmin = roles.includes('ROLE_ADMIN');
 
+  // --- DEDEKTİF KODU BURAYA ---
+  console.log("Home component received roles:", roles);
+
 // Önce 'roles' diye bir şeyin var olduğundan ve bir dizi olduğundan emin ol, sonra 'includes' metodunu çağır.
   const isAdmin = Array.isArray(roles) && roles.includes('ROLE_ADMIN');
 
