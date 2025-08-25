@@ -19,14 +19,11 @@ const handleSubmit = async (e) => {
     try {
       const response = await login(username, password);
 
-      // --- ASIL DEĞİŞİKLİK BURADA ---
-      // Token ve rolleri DOĞRUDAN response.data'dan almayı dene
-      const token = response.data.token;
-      const roles = response.data.roles;
+      // --- İŞTE BU! DOĞRU KOD BU! ---
+      const { token, roles } = response.data;
 
       // Eğer token veya roller tanımsızsa, bu bir hatadır
       if (!token || !roles) {
-        // Konsola backend'den gelen tüm cevabı yazdırarak ne olduğunu görelim
         console.error("Incomplete data received from backend:", response.data);
         throw new Error("Token or roles not found in login response");
       }
@@ -39,12 +36,13 @@ const handleSubmit = async (e) => {
       onLogin(token, roles);
 
     } catch (err) {
-      console.error("Login Error Details:", err); // Hatanın tüm detaylarını konsola yazdır
+      console.error("Login Error Details:", err);
       setError('Login failed. Please check your credentials or network connection.');
     } finally {
       setIsloading(false);
     }
   };
+  
   /*
   const handleSubmit = async (e) => {
     e.preventDefault();
