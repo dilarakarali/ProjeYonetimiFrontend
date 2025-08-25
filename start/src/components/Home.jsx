@@ -5,6 +5,7 @@ Kullanıcının rolüne (isAdmin) göre bu kutucuklara tıklanınca ne olacağı
 Çıkış butonu da burada yer alır.
 */
 
+/*
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -35,6 +36,35 @@ const Home = ({ onLogout }) => {
       }
     }
   };
+*/
+import React from "react"; // useState ve useEffect'i sildik, artık gerek yok
+import { useNavigate } from "react-router-dom";
+
+// Home component'i artık onLogout VE roles adında iki prop alıyor.
+const Home = ({ onLogout, roles }) => { 
+  const navigate = useNavigate();
+
+  // Artık useState ve useEffect'e ihtiyacımız kalmadı.
+  // Rol bilgisi doğrudan App.jsx'ten geliyor.
+
+  const isAdmin = roles.includes('ROLE_ADMIN');
+
+  const handleBoxClick = (box) => {
+    if (box === "employee" || box === "project") {
+      if (!isAdmin) {
+        alert("Yetkiniz yok. Bu bölüme sadece admin erişebilir.");
+        return;
+      }
+      navigate(box === "employee" ? "/employees" : "/projects");
+    } else if (box === "assignment") {
+      if (isAdmin) {
+        navigate("/assignments");
+      } else {
+        navigate("/my-projects");
+      }
+    }
+  };
+
 
   return (
     <div style={containerStyle}>
